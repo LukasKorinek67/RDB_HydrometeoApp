@@ -9,6 +9,7 @@
 # - vyberu třeba Liberec a Jablonec - a najdu všechny stejný teploty
 # - potřebuju vygenerovat tabulku, která mi vygeneruje maxima a minima (teploty) pro jednotlivý místa - pro všechny místa
 
+# zkouska git branch
 
 from Controller import Controller
 
