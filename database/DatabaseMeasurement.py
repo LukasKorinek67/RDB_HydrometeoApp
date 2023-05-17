@@ -24,11 +24,15 @@ class DatabaseMeasurement():
         None.
 
         """
-        self.myclient = MongoClient(
-            "mongodb+srv://Test1:Heslo123@cluster0.0gobs.mongodb.net/covid19?retryWrites=true&w=majority")
-        self.database = self.myclient["covid19"]
-        self.db_cr = self.database["covid19_CR"]
-        self.string_info = "Čeká se na data."
+        # self.myclient = MongoClient(
+        #     "mongodb+srv://Test1:Heslo123@cluster0.0gobs.mongodb.net/covid19?retryWrites=true&w=majority")
+        # self.database = self.myclient["covid19"]
+        # self.db_cr = self.database["covid19_CR"]
+        # self.string_info = "Čeká se na data."
+
+
+    def get_last_record(self, city):
+        pass
 
     def add_info_cr(self, data_cr):
         """

@@ -12,34 +12,64 @@
 
 from Controller import Controller
 
-def startPrint():
-	print("-------- Aplikace HydrometeoApp --------")
+controller = Controller()
 
-def printMenu():
-	print("----------------------")
+def start_print():
+	print(" | Aplikace HydrometeoApp | ")
+
+def menu():
+	print("---------------------------")
 	print("- 1 - Najít všechny stejné teploty pro dvě místa")
 	print("- 2 - Vygenerovat tabulku max a min teplot")
 	print("- 3 - Přidat město")
-	print("----------------------")
+	print("- 0 - Ukončit program")
+	print("---------------------------")
+
+	choice = input("Vyberte možnost: ")
+
+	if choice == "1":
+		same_temperatures()
+	elif choice == "2":
+		max_min_temperature()
+	elif choice == "3":
+		add_city()
+	elif choice == "0":
+		exit()
+	else:
+		print("Neplatná volba. Zkuste to znovu.")
+		menu()
+
+
+def same_temperatures():
+	# 1
+	controller.same_temperatures()
+	print("... Probíhá nalezení všech stejných teplot pro dvě místa ...\n")
+
+
+def max_min_temperature():
+	# 2
+	controller.max_min_temperature()
+	print("... Probíhá generování tabulky max a min teplot ...\n")
+
+
+def add_city():
+	# 3
+	cityName = input("Zadejte název města: ")
+	
+	try:
+		controller.add_city(cityName)
+		print("Město " + cityName + " přidáno!\n")
+	except ValueError as e:
+		print("CHYBA: " + str(e) + "\n")
+
 
 def main():
-	startPrint()
-	Controller.updateData() # doplní měření v době, kdy aplikace neběžela
-	printMenu()
-	# zjistit jakou volbu zadal uživatel a pak provést
-	
-
-	# 1
-	Controller.sameTemperatures()
-
-	# 2
-	Controller.maxMinTemperature()
-
-	# 3
-	cityName = "City"
-	Controller.addCity(cityName)
-	
+	start_print()
+	controller.update_data() # doplní měření v době, kdy aplikace neběžela
+	while True:
+		menu()
 
 
 if __name__ == "__main__":
-    main()
+	main()
+
