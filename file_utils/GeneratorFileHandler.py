@@ -6,10 +6,8 @@
 RDB - GeneratorFileHandler
 """
 
-import sys
 import os
 import subprocess
-
 
 
 class GeneratorFileHandler():
@@ -22,14 +20,16 @@ class GeneratorFileHandler():
         Konstruktor
         """
         file_name = "RDBFileGenerator.exe"
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-        file_generator_folder = os.path.join(dir_path, "RDBFileGenerator")
-        file = os.path.join(file_generator_folder, file_name)
-        self.file_path = file
+        self.file_path = self._get_file_path(file_name)
+    
+    def _get_file_path(self, file_name):
+        current_dir = os.path.dirname(os.path.realpath(__file__))
+        parent_dir = os.path.dirname(current_dir)
+        file_path = os.path.join(parent_dir, file_name)
+        return file_path
 
     def generate(self):
         process = subprocess.Popen(self.file_path, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-
         stdout, stderr = process.communicate()
 
         if process.returncode == 0:
@@ -44,9 +44,3 @@ class GeneratorFileHandler():
         # Výpis chybového výstupu
         print("Chybový výstup:")
         print(stderr.decode())
-
-
-
-
-
-

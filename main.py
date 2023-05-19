@@ -10,20 +10,22 @@
 # - potřebuju vygenerovat tabulku, která mi vygeneruje maxima a minima (teploty) pro jednotlivý místa - pro všechny místa
 
 
-from Controller import Controller
+from controller.Controller import Controller
 
 controller = Controller()
 
 def start_print():
+	print("\n ------------------------- ")
 	print(" | Aplikace HydrometeoApp | ")
+	print(" ------------------------- \n")
 
 def menu():
-	print("---------------------------")
+	print("---------------------------------------------------")
 	print("- 1 - Najít všechny stejné teploty pro dvě místa")
 	print("- 2 - Vygenerovat tabulku max a min teplot")
 	print("- 3 - Přidat město")
 	print("- 0 - Ukončit program")
-	print("---------------------------")
+	print("---------------------------------------------------\n")
 
 	choice = input("Vyberte možnost: ")
 

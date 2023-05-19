@@ -6,22 +6,16 @@
 RDB - Controller
 """
 
-from datetime import date
-# from RequestHandler import RequestHandler
-# from DailyCasesData import DailyCasesData
+from file_utils.ConfigFileHandler import ConfigFileHandler
+from file_utils.GeneratorFileHandler import GeneratorFileHandler
+from file_utils.JSONFileHandler import JSONFileHandler
+from utils.DateTimeConverter import DateTimeConverter
+from database.DatabaseLocation import DatabaseLocation
+from database.DatabaseMeasurement import DatabaseMeasurement
 
-import sys
-import os
-
-from ConfigFileHandler import ConfigFileHandler
-from GeneratorFileHandler import GeneratorFileHandler
-
-from DateTimeConverter import DateTimeConverter
-
-dir_path = os.path.dirname(os.path.realpath(__file__))
-sys.path.append(os.path.abspath(os.path.join(dir_path, "database")))
-from DatabaseLocation import DatabaseLocation
-from DatabaseMeasurement import DatabaseMeasurement
+# pak smazat:
+import platform
+from file_utils.TestJSONGenerator import TestJSONGenerator
 
 
 class Controller():
@@ -41,8 +35,22 @@ class Controller():
 	def _add_records(self, city, long_from, long_to):
 		self.configFileHandler.write_config(city, long_from, long_to)
 
-		# Tady pak vygeneruju ten JSON a data z toho je pak potřeba nějak uložit do databáze
-		#self.generatorFileHandler.generate()
+		system = platform.system()
+		if (system == "Darwin" or system == "Linux"):
+			# Pouze pro TESTOVÁNÍ u mě na Macu:
+			testGenerator = TestJSONGenerator(city)
+			testGenerator.generate()
+		elif system == "Windows":
+			# Tohle je varianta, která se bude používat normálně
+			self.generatorFileHandler.generate()
+		else:
+			testGenerator = TestJSONGenerator(city)
+			testGenerator.generate()
+
+		jsonFile = JSONFileHandler(city)
+		data = jsonFile.read_file()
+		# dál tady nějak uložit ty data do databáze
+		# v proměnný data je python dictionary
 
 
 	def update_data(self):
@@ -73,9 +81,8 @@ class Controller():
 		"""
 		Popis
 		"""
-		#if(self.databaseLocation.exists(city_name)):
-		if(city_name == "Liberec"):	#Jen pro testování
-			raise ValueError("Toto město už je v databázi!")
+		# if(self.databaseLocation.exists(city_name)):
+		# 	raise ValueError("Toto město už je v databázi!")
 
 		# Tady nastavuju od kdy budou v databázi záznamy - zvolil jsem 15.05.2023
 		long_from = DateTimeConverter.date_to_timestamp(15,5,2023)

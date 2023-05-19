@@ -6,9 +6,7 @@
 RDB - ConfigFileHandler
 """
 
-import sys
 import os
-
 
 
 class ConfigFileHandler():
@@ -21,11 +19,15 @@ class ConfigFileHandler():
         Konstruktor
         """
         file_name = "input.txt"
-        dir_path = os.path.dirname(os.path.realpath(__file__))
-        file_generator_folder = os.path.join(dir_path, "RDBFileGenerator")
-        file = os.path.join(file_generator_folder, file_name)
-        self.file_path = file
+        self.file_path = self._get_file_path(file_name)
 
+    
+    def _get_file_path(self, file_name):
+        current_dir = os.path.dirname(os.path.realpath(__file__))
+        parent_dir = os.path.dirname(current_dir)
+        file_path = os.path.join(parent_dir, file_name)
+        return file_path
+    
     def read_config(self):
         try:
             with open(self.file_path, "r") as file:
@@ -33,7 +35,6 @@ class ConfigFileHandler():
         except FileNotFoundError:
             print(f"Config file '{self.file_path}' not found.")
             return None
-
 
     def write_config(self, city, long_from, long_to):
         try:
@@ -46,9 +47,3 @@ class ConfigFileHandler():
             #print("Config file updated successfully.")
         except IOError:
             print(f"Error writing to config file '{self.file_path}'.")
-
-
-
-
-
-

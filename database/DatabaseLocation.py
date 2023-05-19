@@ -2,13 +2,13 @@
 # -*- coding: utf-8 -*-
 
 #import sqlite3
-from datetime import date
-import sys
-import os
+# from datetime import date
+# import sys
+# import os
 
-dir_path = os.path.dirname(os.path.realpath(__file__))
-sys.path.append(os.path.abspath(os.path.join(dir_path, os.pardir)))
-#from DailyCasesData import DailyCasesData
+# dir_path = os.path.dirname(os.path.realpath(__file__))
+# sys.path.append(os.path.abspath(os.path.join(dir_path, os.pardir)))
+# from DailyCasesData import DailyCasesData
 
 
 class DatabaseLocation():
