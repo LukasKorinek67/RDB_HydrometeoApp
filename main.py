@@ -24,7 +24,7 @@ def start_print():
 
 def menu():
 	print("---------------------------------------------------")
-	print("- 1 - Najít všechny stejné teploty pro dvě místa")
+	print("- 1 - Najít všechny stejné teploty pro dvě města")
 	print("- 2 - Vygenerovat tabulku max a min teplot")
 	print("- 3 - Přidat město")
 	print("- 0 - Ukončit program")
@@ -47,7 +47,25 @@ def menu():
 
 def same_temperatures():
 	# 1
-	print(controller.same_temperatures())
+	cities_in_database = controller.get_all_cities()
+	if(len(cities_in_database) < 2):
+		print("V databázi není dostatečný počet měst, proto není možné najít stejné teploty pro dvě místa. Prosím přidejte města do databáze.")
+	else:
+		print("\nZadejte dvě požadovaná města:")
+		firstCity = input("Název prvního města: ")
+		while firstCity not in cities_in_database:
+			print("Toto město není v databázi! Zadejte prosím platné město. (V databázi jsou tyto města: " + ', '.join(cities_in_database) + ")\n")
+			firstCity = input("Název prvního města: ")
+		
+		secondCity = input("Název druhého města: ")
+		while (secondCity not in cities_in_database or secondCity == firstCity):
+			if secondCity not in cities_in_database:
+				print("Toto město není v databázi! Zadejte prosím platné město. (V databázi jsou tyto města: " + ', '.join(cities_in_database) + ")\n")
+			elif secondCity == firstCity:
+				print("Nelze zadat jedno město dvakrát! Zadejte prosím jiné město.\n")
+			secondCity = input("Název druhého města: ")
+
+		print(controller.same_temperatures(firstCity, secondCity))
 
 
 def max_min_temperature():

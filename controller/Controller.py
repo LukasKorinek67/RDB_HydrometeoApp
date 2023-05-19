@@ -66,17 +66,27 @@ class Controller():
 		# 	self._add_records(city, last_record, long_now)
 		pass
 
-	def same_temperatures(self):
+	def get_all_cities(self):
+		"""
+		- vrátí všechna města, které jsou v databázi
+		"""
+		# zatím jen pro testování:
+		return ["Liberec", "Praha", "Plzeň", "Ostrava", "Most"]
+
+	def same_temperatures(self, firstCity, secondCity):
 		"""
 		Popis
 		"""
-		return "... Probíhá nalezení všech stejných teplot pro dvě místa ...\n"
+		# zatím jen pro testování:
+		return_string = "... Tady proběhne nalezení všech stejných teplot pro města " + firstCity + " a " + secondCity + " ...\n"
+		return return_string
 
 	def max_min_temperature(self):
 		"""
 		Popis
 		"""
 		# Tady vrátit něco v takovýmhle formátu - dictionary
+		# zatím jen pro testování:
 		return {
 			"Liberec" : {
 				"max": 100,
