@@ -49,6 +49,7 @@ class Controller():
 
 		jsonFile = JSONFileHandler(city)
 		data = jsonFile.read_file()
+		
 		# dál tady nějak uložit ty data do databáze
 		# v proměnný data je python dictionary
 
@@ -69,13 +70,35 @@ class Controller():
 		"""
 		Popis
 		"""
-		pass
+		return "... Probíhá nalezení všech stejných teplot pro dvě místa ...\n"
 
 	def max_min_temperature(self):
 		"""
 		Popis
 		"""
-		pass
+		# Tady vrátit něco v takovýmhle formátu - dictionary
+		return {
+			"Liberec" : {
+				"max": 100,
+				"min": 0
+			},
+			"Praha" : {
+				"max": 100,
+				"min": 0
+			},
+			"Plzeň" : {
+				"max": 100,
+				"min": 0
+			},
+			"Ostrava" : {
+				"max": 100,
+				"min": 0
+			},
+			"Most" : {
+				"max": 100,
+				"min": 0
+			}, 
+		}
 
 	def add_city(self, city_name):
 		"""

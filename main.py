@@ -12,6 +12,9 @@
 
 from controller.Controller import Controller
 
+import json
+from prettytable import PrettyTable
+
 controller = Controller()
 
 def start_print():
@@ -44,20 +47,25 @@ def menu():
 
 def same_temperatures():
 	# 1
-	controller.same_temperatures()
-	print("... Probíhá nalezení všech stejných teplot pro dvě místa ...\n")
+	print(controller.same_temperatures())
 
 
 def max_min_temperature():
 	# 2
-	controller.max_min_temperature()
-	print("... Probíhá generování tabulky max a min teplot ...\n")
+	print("Tabulka maximálních minimálních teplot všech měst:\n")
+	data = controller.max_min_temperature()
+	table = PrettyTable(["Město", "Max", "Min"])
+	for city, values in data.items():
+		max_value = values["max"]
+		min_value = values["min"]
+		table.add_row([city, max_value, min_value])
+	print(table)
+	print()
 
 
 def add_city():
 	# 3
 	cityName = input("Zadejte název města: ")
-	
 	try:
 		controller.add_city(cityName)
 		print("Město " + cityName + " přidáno!\n")
@@ -74,4 +82,3 @@ def main():
 
 if __name__ == "__main__":
 	main()
-

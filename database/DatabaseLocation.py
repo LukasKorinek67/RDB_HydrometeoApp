@@ -6,10 +6,6 @@
 # import sys
 # import os
 
-# dir_path = os.path.dirname(os.path.realpath(__file__))
-# sys.path.append(os.path.abspath(os.path.join(dir_path, os.pardir)))
-# from DailyCasesData import DailyCasesData
-
 
 class DatabaseLocation():
 
@@ -23,16 +19,35 @@ class DatabaseLocation():
         None.
 
         """
-        # self.myclient = MongoClient(
-        #     "mongodb+srv://Test1:Heslo123@cluster0.0gobs.mongodb.net/covid19?retryWrites=true&w=majority")
-        # self.database = self.myclient["covid19"]
-        # self.db_cr = self.database["covid19_CR"]
-        # self.string_info = "Čeká se na data."
-        
-
+        pass
         #self.conn = sqlite3.connect('weather_data.db')
         #self.c = c = conn.cursor()
     
     def get_all_cities():
         return ["Liberec", "Praha", "Plzeň", "Ostrava", "Most"]
         #pass
+
+    # Chat GPT schéma:
+    # Tabulka "Location":
+    # id: PRIMARY KEY
+    # place: VARCHAR(255)
+
+    # Tabulka "Contact":
+    # id: PRIMARY KEY
+    # name: VARCHAR(255)
+    # surname: VARCHAR(255)
+    # email: VARCHAR(255)
+    # deptitle: VARCHAR(255)
+    # depphone: VARCHAR(255)
+    # depaddress_street: VARCHAR(255)
+    # depaddress_number: VARCHAR(255)
+    # depaddress_city: VARCHAR(255)
+
+    # Tabulka "Measurement":
+    # id: PRIMARY KEY
+    # location_id: FOREIGN KEY na Location(id)
+    # contact_id: FOREIGN KEY na Contact(id)
+    # timestamp: INTEGER
+    # temperature: FLOAT
+    # pressure: FLOAT
+    # humidity: INTEGER
