@@ -11,8 +11,6 @@
 
 
 from controller.Controller import Controller
-
-import json
 from prettytable import PrettyTable
 
 controller = Controller()
@@ -26,7 +24,7 @@ def menu():
 	print("---------------------------------------------------")
 	print("- 1 - Najít všechny stejné teploty pro dvě města")
 	print("- 2 - Vygenerovat tabulku max a min teplot")
-	print("- 3 - Přidat město")
+	print("- 3 - Přidat město\n")
 	print("- 0 - Ukončit program")
 	print("---------------------------------------------------\n")
 
@@ -53,20 +51,27 @@ def same_temperatures():
 	else:
 		print("\nZadejte dvě požadovaná města:")
 		firstCity = input("Název prvního města: ")
+		check_if_end_program(firstCity)
 		while firstCity not in cities_in_database:
 			print("Toto město není v databázi! Zadejte prosím platné město. (V databázi jsou tyto města: " + ', '.join(cities_in_database) + ")\n")
 			firstCity = input("Název prvního města: ")
+			check_if_end_program(firstCity)
 		
 		secondCity = input("Název druhého města: ")
+		check_if_end_program(secondCity)
 		while (secondCity not in cities_in_database or secondCity == firstCity):
 			if secondCity not in cities_in_database:
 				print("Toto město není v databázi! Zadejte prosím platné město. (V databázi jsou tyto města: " + ', '.join(cities_in_database) + ")\n")
 			elif secondCity == firstCity:
 				print("Nelze zadat jedno město dvakrát! Zadejte prosím jiné město.\n")
 			secondCity = input("Název druhého města: ")
+			check_if_end_program(secondCity)
 
 		print(controller.same_temperatures(firstCity, secondCity))
 
+def check_if_end_program(character):
+	if character == "0":
+		exit()
 
 def max_min_temperature():
 	# 2
@@ -84,10 +89,12 @@ def max_min_temperature():
 def add_city():
 	# 3
 	cityName = input("Zadejte název města: ")
+	check_if_end_program(cityName)
 	try:
 		controller.add_city(cityName)
 		print("Město " + cityName + " přidáno!\n")
 	except ValueError as e:
+		# město už je v databázi
 		print("CHYBA: " + str(e) + "\n")
 
 
