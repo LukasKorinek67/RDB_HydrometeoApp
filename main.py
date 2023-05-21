@@ -2,14 +2,6 @@
 # -*- coding: utf-8 -*-
 
 
-# aplikační logiku
-# SQL - PostgreSQL, MySQL, SQLite
-# MongoDB
-# - jakmile mám data který jsou kompletní, tak najít všechny stejné teploty pro dvě místa
-# - vyberu třeba Liberec a Jablonec - a najdu všechny stejný teploty
-# - potřebuju vygenerovat tabulku, která mi vygeneruje maxima a minima (teploty) pro jednotlivý místa - pro všechny místa
-
-
 from controller.Controller import Controller
 from prettytable import PrettyTable
 
@@ -67,7 +59,20 @@ def same_temperatures():
 			secondCity = input("Název druhého města: ")
 			check_if_end_program(secondCity)
 
-		print(controller.same_temperatures(firstCity, secondCity))
+		same_temperatures = controller.same_temperatures(firstCity, secondCity)
+		print_same_temperatures(same_temperatures)
+
+def print_same_temperatures(same_temperatures):
+	if(len(same_temperatures) > 100):
+		print("Celkově bylo naměřeno", len(same_temperatures), "stejných hodnot. Opravdu je chcete všechny vypsat? [y/n]")
+		choice = input("[y/n]: ")
+		if choice == "y" or choice == "Y":
+			print("\nTyto hodnoty byly naměřeny u obou měst:")
+			print(', '.join(str(temperature) for temperature in same_temperatures))
+	else:
+		print("\nTyto hodnoty byly naměřeny u obou měst: (celkem", len(same_temperatures), "stejných hodnot)")
+		print(', '.join(str(temperature) for temperature in same_temperatures))
+	
 
 def check_if_end_program(character):
 	if character == "0":
@@ -75,7 +80,7 @@ def check_if_end_program(character):
 
 def max_min_temperature():
 	# 2
-	print("Tabulka maximálních minimálních teplot všech měst:\n")
+	print("Tabulka maximálních a minimálních teplot všech měst:\n")
 	data = controller.max_min_temperature()
 	table = PrettyTable(["Město", "Max", "Min"])
 	for city, values in data.items():
@@ -100,7 +105,7 @@ def add_city():
 
 def main():
 	start_print()
-	controller.update_data() # doplní měření v době, kdy aplikace neběžela
+	controller.update_data()
 	while True:
 		menu()
 
