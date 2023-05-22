@@ -34,32 +34,30 @@ class Controller():
 
 	def _add_records(self, city, long_from, long_to):
 		self.configFileHandler.write_config(city, long_from, long_to)
-		# Ověřovací výpis
-		# print("Město:", city)
-		# print("Od: ", DateTimeConverter.timestamp_to_datetime(long_from))
-		# print("Do: ", DateTimeConverter.timestamp_to_datetime(long_to))
-		#
 		system = platform.system()
 		if (system == "Darwin" or system == "Linux"):
 			# Pouze pro TESTOVÁNÍ u mě na Macu:
 			testGenerator = TestJSONGenerator(city)
 			testGenerator.generate()
-		elif system == "Windows":
-			# Tohle je varianta, která se bude používat normálně
-			self.generatorFileHandler.generate()
+			jsonFile = JSONFileHandler(city)
+			data = jsonFile.read_file()
+			#ukládání dat do relační databáze - logika, integrita, vše
+			self.databaseLocation.add_data(data)
+			measurements = data["type"]["values"]
+			self.databaseMeasurement.add_measurements(data["place"], measurements)
 		else:
-			testGenerator = TestJSONGenerator(city)
-			testGenerator.generate()
-
-		jsonFile = JSONFileHandler(city)
-		data = jsonFile.read_file()
-		
-		measurements = data["type"]["values"]
-		self.databaseMeasurement.add_measurements(data["place"], measurements)
-
-		# dál to tady ještě uložit do relační databáze
-		# v proměnný data je python dictionary
-		# tzn. něco jako databaseLocation.save() atd. atd.
+			# Klasická verze na Windows - z exe souboru
+			self.generatorFileHandler.generate()
+			jsonFile = JSONFileHandler(city)
+			data = jsonFile.read_file()
+			#ukládání dat do relační databáze - logika, integrita, vše
+			self.databaseLocation.add_data(data)
+			if "manual" in data["type"].keys():
+				measurements = data["type"]["manual"]["values"]
+				self.databaseMeasurement.add_measurements(data["place"], measurements)
+			elif "auto" in data["type"].keys():
+				measurements = data["type"]["auto"]["values"]
+				self.databaseMeasurement.add_measurements(data["place"], measurements)
 
 
 	def update_data(self):
@@ -77,9 +75,8 @@ class Controller():
 		"""
 		- vrátí všechna města, které jsou v databázi
 		"""
-		# Teď to tady vracím z Monga, ale správně to budeme muset tady vracet z relační databáze!
-		return self.databaseMeasurement.get_all_cities()
-		# return self.databaseLocation.get_all_cities()
+		# return self.databaseMeasurement.get_all_cities()
+		return self.databaseLocation.get_all_cities()
 
 	def same_temperatures(self, first_city, second_city):
 		"""
@@ -101,17 +98,11 @@ class Controller():
 		"""
 		- přidá město do databáze a zavolá metodu _add_records, která se postará o stažení záznamů od počátečního data
 		"""
-		# Tady nějak získat z relační!
-		# if(self.databaseLocation.exists(city_name)):
 		if(city_name in self.get_all_cities()):
 			raise ValueError("Toto město už je v databázi!")
 
+		self.databaseLocation.add_city(city_name)
 		# Tady nastavuju od kdy budou v databázi záznamy - zvolil jsem 18.05.2023
 		long_from = DateTimeConverter.date_to_timestamp(18,5,2023)
 		long_now = DateTimeConverter.timestamp_now()
 		self._add_records(city_name, long_from, long_now)
-
-
-
-
-

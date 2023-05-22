@@ -29,18 +29,5 @@ class GeneratorFileHandler():
         return file_path
 
     def generate(self):
-        process = subprocess.Popen(self.file_path, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-        stdout, stderr = process.communicate()
+        subprocess.call(self.file_path) 
 
-        if process.returncode == 0:
-            print("Proces byl úspěšně dokončen.")
-        else:
-            print("Proces skončil s chybou.")
-
-        # Výpis výstupu
-        print("Výstup:")
-        print(stdout.decode())
-
-        # Výpis chybového výstupu
-        print("Chybový výstup:")
-        print(stderr.decode())
